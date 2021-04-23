@@ -6,8 +6,18 @@ public class Sphere extends Obj {
         radius = 1;
     }
 
+    public Sphere(String n) {
+        super(n);
+        radius = 1;
+    }
+
     public Sphere(Vec3 c, double r) {
         super(c);
+        radius = r;
+    }
+
+    public Sphere(String n, Vec3 c, double r) {
+        super(n, c);
         radius = r;
     }
 
