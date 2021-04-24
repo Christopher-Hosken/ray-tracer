@@ -82,4 +82,32 @@ public class Vec3 {
             v.x * u.y - v.y * u.x
         );
     }
+
+    public static double random(double min, double max) {
+        return min + Math.random() * (max - min);
+    }
+
+    public static Vec3 randomVec() {
+        return new Vec3(
+            Math.random(),
+            Math.random(),
+            Math.random()
+        );
+    }
+
+    public static Vec3 randomVec(double min, double max) {
+        return new Vec3(
+            random(min, max),
+            random(min, max),
+            random(min, max)
+        );
+    }
+
+    public static Vec3 randomInUnitSphere() {
+        while (true) {
+            Vec3 v = randomVec(1, -1);
+            if (v.lengthSquared() < 1) return v;
+        }
+    }
+
 }

@@ -11,14 +11,14 @@ public class Camera extends Obj {
     private int aspectRatio = 1;
 
     public Camera(int w, int h) {
-        super();
+        super("camera");
         width = w;
         height = h;
         direction = new Vec3(0, 0, 1);
     }
 
     public Camera(int w, int h, Vec3 c, Vec3 d) {
-        super(c);
+        super("camera", c);
         direction = d;
         width = w;
         height = h;
@@ -30,7 +30,7 @@ public class Camera extends Obj {
         return new Ray(center, target);
     }
 
-    public void render(int samples) throws IOException {
+    public void render(int samples, int bounces, World world) throws IOException {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < height; y++) {
@@ -41,7 +41,7 @@ public class Camera extends Obj {
                     double v = ((double) y + Math.random()) / height;
                     Ray ray = getRay(u, v);
 
-                    col = Vec3.add(col, solveRay(ray));
+                    col = Vec3.add(col, solveRay(ray, world, bounces));
                 }
                 int rgb = convertRGB(col, samples);
                 image.setRGB(x, (height - 1) - y, rgb);
@@ -53,6 +53,24 @@ public class Camera extends Obj {
         ImageIO.write(image, "png", outFile);
     }
 
+    public Vec3 solveRay(Ray r, World w, int d) {
+        Obj ob = w.hit(r);
+
+        if (ob != null) {
+            Vec3 target = Vec3.add(Vec3.add(r.at(ob.t()), ob.N()), Vec3.randomInUnitSphere());
+
+            return Vec3.mult(0.5, solveRay(new Ray(r.at(ob.t()), Vec3.sub(target, r.at(ob.t()))), w, d - 1));
+        }
+
+        else {
+            double t = r.direction().unitVector().y;
+            return Vec3.add(
+                Vec3.mult(new Vec3(1, 1, 1), (1-t)),
+                Vec3.mult(new Vec3(0.5, 0.75, 1), t)
+            );
+        }
+    }
+
     public int convertRGB(Vec3 c, int s) {
         c = Vec3.div(c, s);
         c.clamp(0.0, 1.0);
@@ -62,22 +80,5 @@ public class Camera extends Obj {
         int b = (int) (c.z * 255);
 
         return new Color(r, g, b).getRGB();
-    }
-
-    public Vec3 solveRay(Ray ray) {
-        double t = new Sphere(new Vec3(0, 0, 1), 0.5).intersect(ray);
-        if (t > 0.001) {
-            Vec3 normal = Vec3.sub(ray.at(t), center).unitVector();
-
-            return Vec3.mult(Vec3.add(normal, new Vec3(1, 1, 1)), 0.5);
-        }
-
-        else {
-            t = ray.direction().unitVector().y + 0.5;
-            return Vec3.add(
-                Vec3.mult(new Vec3(1, 1, 1), (1 - t)), 
-                Vec3.mult(new Vec3(0.3, 0.5, 1), t)
-            );
-        }
     }
 }
