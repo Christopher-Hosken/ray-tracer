@@ -5,14 +5,15 @@ public class Main {
         World scene = new World();
 
         scene.add(
-            new Sphere("ground", new Vec3(0, -100.5, 1), 100)
-        );
-
-        scene.add(
-            new Sphere("sphere1", new Vec3(0, 0, 1), 0.5)
+            new Mesh("mesh",
+                new Tri[] {
+                    new Tri(new Vec3(-0.25, 0.25, 1), new Vec3(0, 0, 1), new Vec3(0.25, 0.25, 1)),
+                    new Tri(new Vec3(-0.25, 0.25, 1), new Vec3(3, 0, 1), new Vec3(0.25, 0.25, 1)),
+                }
+            )
         );
 
         Camera cam = new Camera(240, 240);
-        cam.render(512, 8, scene);
+        cam.render(8, 4, scene);
     }
 }

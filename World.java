@@ -26,7 +26,7 @@ public class World {
     public Obj hit(Ray r) {
         Obj c = new Obj("tmp");
         boolean hit = false;
-        double t = Double.MAX_VALUE;
+        double t = Double.POSITIVE_INFINITY;
 
         if (scene != null && scene.size() > 0)
         for (Obj ob : scene) {
