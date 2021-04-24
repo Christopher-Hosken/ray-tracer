@@ -1,3 +1,4 @@
+package Data;
 public class Vec3 {
     public double x,y,z;
 

@@ -1,3 +1,5 @@
+package Data;
+
 public class Obj {
     protected String name;
     protected Vec3 center;

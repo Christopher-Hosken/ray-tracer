@@ -1,3 +1,5 @@
+package Data;
+
 public class Tri {
     private Vec3 A,B,C;
     private Vec3 N;

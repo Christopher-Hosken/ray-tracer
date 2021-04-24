@@ -1,3 +1,4 @@
+package Data;
 public class Ray {
     private Vec3 origin, direction;
 

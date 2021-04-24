@@ -1,3 +1,6 @@
+package Prims;
+import Data.*;
+
 public class Sphere extends Obj {
     private double radius;
 

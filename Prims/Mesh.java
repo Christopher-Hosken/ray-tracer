@@ -1,3 +1,6 @@
+package Prims;
+import Data.*;
+
 public class Mesh extends Obj {
     private Tri[] data;
 

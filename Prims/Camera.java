@@ -1,8 +1,11 @@
+package Prims;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
-import java.awt.Color;
 
+import Data.*;
+
+import java.awt.Color;
 
 public class Camera extends Obj {
     private Vec3 direction;
