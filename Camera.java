@@ -65,16 +65,19 @@ public class Camera extends Obj {
     }
 
     public Vec3 solveRay(Ray ray) {
-        double t = new Sphere(new Vec3(0, 0, 5), 2).intersect(ray);
-        if (t > 0) {
-            Vec3 normal = Vec3.sub(center, ray.at(t)).unitVector();
+        double t = new Sphere(new Vec3(0, 0, 1), 0.5).intersect(ray);
+        if (t > 0.001) {
+            Vec3 normal = Vec3.sub(ray.at(t), center).unitVector();
 
-            return normal;
-
+            return Vec3.mult(Vec3.add(normal, new Vec3(1, 1, 1)), 0.5);
         }
 
         else {
-            return ray.direction().unitVector();
+            t = ray.direction().unitVector().y + 0.5;
+            return Vec3.add(
+                Vec3.mult(new Vec3(1, 1, 1), (1 - t)), 
+                Vec3.mult(new Vec3(0.3, 0.5, 1), t)
+            );
         }
     }
 }
