@@ -1,15 +1,16 @@
 package Prims;
 import Data.*;
+import Shaders.*;
 
 public class Mesh extends Obj {
     private Tri[] data;
 
-    public Mesh(String n) {
-        super(n);
+    public Mesh(String n, Shader m) {
+        super(n, m);
     }
 
-    public Mesh(String n, Tri[] d) {
-        super(n);
+    public Mesh(String n, Tri[] d, Shader m) {
+        super(n, m);
         data = d;
     }
 

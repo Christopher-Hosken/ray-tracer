@@ -1,4 +1,5 @@
 package Data;
+import Shaders.*;
 import java.util.ArrayList;
 
 public class World {
@@ -25,7 +26,7 @@ public class World {
     }
 
     public Obj hit(Ray r) {
-        Obj c = new Obj("tmp");
+        Obj c = null;
         boolean hit = false;
         double t = Double.POSITIVE_INFINITY;
 
@@ -44,8 +45,5 @@ public class World {
         }
 
         return null;
-        
-
     }
-
 }

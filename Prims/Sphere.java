@@ -1,17 +1,22 @@
 package Prims;
 import Data.*;
+import Shaders.*;
 
 public class Sphere extends Obj {
     private double radius;
 
-    public Sphere(String n) {
-        super(n);
+    public Sphere(String n, Shader m) {
+        super(n, m);
         radius = 1;
     }
 
-    public Sphere(String n, Vec3 c, double r) {
-        super(n, c);
+    public Sphere(String n, Vec3 c, double r, Shader m) {
+        super(n, c, m);
         radius = r;
+    }
+
+    public double radius() {
+        return radius;
     }
 
     public double intersect(Ray r) {
@@ -36,6 +41,7 @@ public class Sphere extends Obj {
         }
 
         N = Vec3.div(Vec3.sub(r.at(t), center), radius);
+        setNormal(r);
 
         return t;
     }

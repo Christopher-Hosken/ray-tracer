@@ -28,6 +28,10 @@ public class Vec3 {
         if (z < min) z = min; if (z > max) z = max;
     }
 
+    public Vec3 invert() {
+        return Vec3.mult(-1, this);
+    }
+
     public static Vec3 add(Vec3 v, Vec3 u) {
         return new Vec3(
             v.x + u.x,
@@ -84,6 +88,10 @@ public class Vec3 {
         );
     }
 
+    public static double distance(Vec3 v, Vec3 u) {
+        return Vec3.sub(v, u).length();
+    }
+
     public static double random(double min, double max) {
         return min + Math.random() * (max - min);
     }
@@ -111,4 +119,26 @@ public class Vec3 {
         }
     }
 
+    public static Vec3 randomInUnitDisc() {
+        while(true) {
+            Vec3 v = new Vec3(random(-1, 1), random(-1, 1), 0);
+            if (v.lengthSquared() < 1) return v;
+        }
+    }
+
+    public static Vec3 scatter(Vec3 p, Vec3 n) {
+        return Vec3.add(
+            Vec3.add(p, n),
+            randomInUnitSphere()
+        );
+    }
+
+    public static Vec3 reflect(Vec3 d, Vec3 n, double rough) {
+        return Vec3.add(Vec3.sub(
+            d,
+            Vec3.mult(2 * Vec3.dot(d, n), n)
+        ),
+        Vec3.mult(randomInUnitSphere(), rough)
+        );
+    }
 }

@@ -14,3 +14,4 @@ Portals
 Obj import
 Quadtratic Rays (Light bending)
 Image textures
+RGB Rays (Spectral rendering)
