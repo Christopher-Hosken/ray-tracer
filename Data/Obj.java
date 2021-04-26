@@ -1,25 +1,39 @@
 package Data;
-import Shaders.*;
+import Materials.*;
 
 public class Obj {
     protected String name;
     protected Vec3 center;
     protected double t;
     protected Vec3 N;
-    protected boolean frontFacing;
-    protected Shader mat;
+    protected boolean isFrontFacing;
+    protected Mat mat;
 
-    public Obj(String n, Shader m) {
+    public Obj(String name) {
         center = new Vec3();
-        name = n;
-        mat = m;
+        this.name = name;
+        mat = new Emit("null", new Vec3(0, 0, 0));
     }
 
-    public Obj(String n, Vec3 c, Shader m) {
-        center = c;
-        name = n;
-        mat = m;
+    public Obj(String name, Vec3 center) {
+        this.center = center;
+        this.name = name;
+        mat = new Emit("null", new Vec3(0, 0, 0));
     }
+
+    public Obj(String name, Mat mat) {
+        center = new Vec3();
+        this.name = name;
+        this.mat = mat;
+    }
+
+    public Obj(String name, Vec3 center, Mat mat) {
+        this.center = center;
+        this.name = name;
+        this.mat = mat;
+    }
+
+    //#region (Getter Methods)
 
     public String name() {
         return name;
@@ -37,7 +51,7 @@ public class Obj {
         return N;
     }
 
-    public Shader mat() {
+    public Mat mat() {
         return mat;
     }
 
@@ -49,18 +63,32 @@ public class Obj {
         return false;
     }
 
-    public boolean frontFacing() {
-        return frontFacing;
+    public boolean isfrontFacing() {
+        return isFrontFacing;
     }
 
-    public void setNormal(Ray r) {
-        frontFacing = Vec3.dot(r.direction(), N) < 0;
-        if (!frontFacing) {
+    //#endregion
+
+    //#region (Transformation Methods)
+
+    public void translate(Vec3 t) {
+        center = Vec3.add(center, t);
+    }
+
+    public void scale(double s) {
+        center = center;
+    }
+
+    //#endregion
+
+    public void setNormal(Ray ray) {
+        isFrontFacing = Vec3.dot(ray.direction(), N) < 0;
+        if (!isFrontFacing) {
             N = N.invert();
         }
     }
 
-    public double intersect(Ray r) {
+    public double intersect(Ray ray) {
         return -1;
     }
 }

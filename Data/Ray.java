@@ -6,9 +6,9 @@ public class Ray {
         origin=direction=new Vec3();
     }
 
-    public Ray(Vec3 o, Vec3 d) {
-        origin = o;
-        direction = d;
+    public Ray(Vec3 origin, Vec3 direction) {
+        this.origin = origin;
+        this.direction = direction;
     }
 
     public Vec3 origin() {

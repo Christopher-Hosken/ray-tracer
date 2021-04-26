@@ -1,5 +1,4 @@
 package Data;
-import Shaders.*;
 import java.util.ArrayList;
 
 public class World {
@@ -9,39 +8,43 @@ public class World {
         scene = new ArrayList<Obj>();
     }
 
-    public void add(Obj ob) {
-        scene.add(ob);
+    public void add(Obj obj) {
+        scene.add(obj);
     }
 
     public Obj get(int idx) {
         return scene.get(idx);
     }
 
-    public Obj get(String n) {
+    public Obj get(String nameID) {
         if (scene != null && scene.size() > 0)
-            for (Obj ob : scene) {
-                if (ob.name().equals(n)) return ob;
+            for (Obj obj : scene) {
+                if (obj.name().equals(nameID)) return obj;
             }
         return null;
     }
 
-    public Obj hit(Ray r) {
-        Obj c = null;
+    public ArrayList<Obj> scene() {
+        return scene;
+    }
+
+    public Obj hit(Ray ray) {
+        Obj hitObj = null;
         boolean hit = false;
         double t = Double.POSITIVE_INFINITY;
 
         if (scene != null && scene.size() > 0)
-        for (Obj ob : scene) {
-            double t0 = ob.intersect(r);
+        for (Obj obj : scene) {
+            double t0 = obj.intersect(ray);
             if (t0 > 0.0001 && t0 < t) {
-                c = ob;
+                hitObj = obj;
                 t = t0;
                 hit = true;
             }
         }
 
         if (hit) {
-            return c;
+            return hitObj;
         }
 
         return null;

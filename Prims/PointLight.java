@@ -1,19 +1,23 @@
 package Prims;
 
-import Shaders.Emit;
 import Data.*;
+import Materials.Emit;
 
 public class PointLight extends Sphere {
-    public PointLight(String n, double s) {
-        super(n, new Emit(n, new Vec3(1, 1, 1), s));
+    public PointLight(String name, double emission) {
+        super(name, new Emit(name, new Vec3(1, 1, 1), emission));
     }
 
-    public PointLight(String n, Vec3 cen, double rad, double s) {
-        super(n, cen, rad, new Emit(n, new Vec3(1, 1, 1), s));
+    public PointLight(String name, double radius, double emission) {
+        super(name, radius, new Emit(name, new Vec3(1, 1, 1), emission));
     }
 
-    public PointLight(String n, Vec3 cen, double rad, Vec3 col, double s) {
-        super(n, cen, rad, new Emit(n, col, s));
+    public PointLight(String name, Vec3 center, double radius, double emission) {
+        super(name, center, radius, new Emit(name, new Vec3(1, 1, 1), emission));
+    }
+
+    public PointLight(String name, Vec3 center, double radius, Vec3 color, double emission) {
+        super(name, center, radius, new Emit(name, color, emission));
     }
 
     public boolean isLight() {

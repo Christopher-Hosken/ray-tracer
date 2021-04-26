@@ -15,11 +15,17 @@ public class Tri {
         N = Vec3.cross(BA, CA).unitVector();
     }
 
+    public void translate(Vec3 t) {
+        A = Vec3.add(A, t);
+        B = Vec3.add(B, t);
+        C = Vec3.add(C, t);
+    }
+
     public Vec3 N() {
         return N;
     }
 
-    public double intersect(Ray r) {
+    public double intersect(Ray ray) {
         return -1.0;
     }
 }

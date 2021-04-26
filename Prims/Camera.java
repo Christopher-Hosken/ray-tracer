@@ -13,7 +13,7 @@ public class Camera extends Obj {
     private Vec3 u, v, w, hori, vert, llc;
 
     public Camera(int w, int h, double fov, double aperture, double aspectRatio, double focus) {
-        super("camera", null);
+        super("camera");
         width = w;
         height = h;
         Vec3 direction = new Vec3(0, 0, 1);

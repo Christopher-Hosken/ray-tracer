@@ -1,27 +1,45 @@
 package Prims;
 import Data.*;
-import Shaders.*;
+import Materials.*;
 
 public class Mesh extends Obj {
     private Tri[] data;
 
-    public Mesh(String n, Shader m) {
-        super(n, m);
+    public Mesh(String name) {
+        super(name);
     }
 
-    public Mesh(String n, Tri[] d, Shader m) {
-        super(n, m);
-        data = d;
+    public Mesh(String name, Mat material) {
+        super(name, material);
     }
 
-    public double intersect(Ray r) {
+    public Mesh(String name, Tri[] data) {
+        super(name);
+        this.data = data;
+    }
+
+    public Mesh(String name, Tri[] data, Mat material) {
+        super(name, material);
+        this.data = data;
+    }
+
+    public void translate(Vec3 t) {
+        center = Vec3.add(center, t);
+        if (data != null && data.length > 0) {
+            for (Tri tri : data) {
+                tri.translate(t);
+            }
+        }
+    }
+
+    public double intersect(Ray ray) {
         Tri tc = new Tri();
         boolean hit = false;
         t = Double.POSITIVE_INFINITY;
         if (data == null || data.length == 0) return -1.0;
 
         for (Tri tri : data) {
-            double t0 = tri.intersect(r);
+            double t0 = tri.intersect(ray);
             if (t0 > 0.0001 && t0 < t) {
                 t = t0;
                 tc = tri;

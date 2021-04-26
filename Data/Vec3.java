@@ -126,19 +126,19 @@ public class Vec3 {
         }
     }
 
-    public static Vec3 scatter(Vec3 p, Vec3 n) {
+    public static Vec3 scatter(Vec3 point, Vec3 normal) {
         return Vec3.add(
-            Vec3.add(p, n),
+            Vec3.add(point, normal),
             randomInUnitSphere()
         );
     }
 
-    public static Vec3 reflect(Vec3 d, Vec3 n, double rough) {
+    public static Vec3 reflect(Vec3 direction, Vec3 normal, double roughness) {
         return Vec3.add(Vec3.sub(
-            d,
-            Vec3.mult(2 * Vec3.dot(d, n), n)
+            direction,
+            Vec3.mult(2 * Vec3.dot(direction, normal), normal)
         ),
-        Vec3.mult(randomInUnitSphere(), rough)
+        Vec3.mult(randomInUnitSphere(), roughness)
         );
     }
 }
