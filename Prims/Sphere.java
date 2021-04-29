@@ -1,17 +1,11 @@
 package Prims;
 import Data.*;
-import Materials.*;
 
 public class Sphere extends Obj {
     private double radius;
 
     public Sphere(String name) {
         super(name);
-        radius = 1;
-    }
-
-    public Sphere(String name, Mat material) {
-        super(name, material);
         radius = 1;
     }
 
@@ -26,20 +20,6 @@ public class Sphere extends Obj {
 
     public Sphere(String name, Vec3 center, double radius) {
         super(name, center);
-        this.radius = radius;
-    }
-
-    public Sphere(String name, Vec3 center, Mat material) {
-        super(name, center, material);
-    }
-
-    public Sphere(String name, double radius, Mat material) {
-        super(name, material);
-        this.radius = radius;
-    }
-
-    public Sphere(String name, Vec3 center, double radius, Mat material) {
-        super(name, center, material);
         this.radius = radius;
     }
 
@@ -77,7 +57,13 @@ public class Sphere extends Obj {
         }
 
         N = Vec3.div(Vec3.sub(ray.at(t), center), radius);
-        setNormal(ray);
+        if (Vec3.dot(ray.direction(), N) > 0) {
+            N = N.invert();
+            frontFacing = false;
+        }
+        else {
+            frontFacing = true;
+        }
 
         return t;
     }

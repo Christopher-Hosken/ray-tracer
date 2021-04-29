@@ -21,7 +21,7 @@ public class Camera extends Obj {
     }
 
     public Camera(int w, int h, Vec3 c, Vec3 d, double fov, double aperture, double aspectRatio, double focus) {
-        super("camera", c, null);
+        super("camera", c);
         Vec3 direction = d;
         width = w;
         height = h;
@@ -51,7 +51,7 @@ public class Camera extends Obj {
         return new Ray(Vec3.add(center, offset), target);
     }
 
-    public void render(int samples, int bounces, World world) throws IOException {
+    public void render(World world, int samples) throws IOException {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < height; y++) {
@@ -62,7 +62,7 @@ public class Camera extends Obj {
                     double v = ((double) y + Math.random()) / height;
                     Ray ray = getRay(u, v);
 
-                    col = Vec3.add(col, solveRay(ray, world, bounces));
+                    col = Vec3.add(col, solveRay(world, ray));
                 }
                 int rgb = convertRGB(col, samples);
                 image.setRGB(x, (height - 1) - y, rgb);
@@ -74,39 +74,27 @@ public class Camera extends Obj {
         ImageIO.write(image, "png", outFile);
     }
 
-    public Vec3 solveRay(Ray r, World w, int d) {
-        Obj ob = w.hit(r);
+    public Vec3 solveRay(World world, Ray ray) {
+        Obj obj = world.hit(ray);
 
-        if (ob != null) {
-            if (ob.mat().isEmissive()) {
-                double dis = 1.0;
-                if (ob.isLight()) {
-                    dis = ob.radius() / Vec3.distance(r.at(ob.t()), ob.center());
-                }
-                return Vec3.mult(ob.mat().color(), dis);
-            }
-
-            else {
-                return Vec3.mult(Vec3.mult(ob.mat().color(), 0.5), solveRay(ob.mat().scatter(ob, r), w, d - 1));
-            }
+        if (obj != null) {
+            return Vec3.mult(0.5, obj.N());
         }
 
-        else {
-            double t = r.direction().unitVector().y;
-            return Vec3.add(
-                Vec3.mult(new Vec3(1, 1, 1), (1-t)),
-                Vec3.mult(new Vec3(0.5, 0.75, 1), t)
-            );
-        }
+        double u = ray.direction().unitVector().y;
+        return Vec3.add(
+            Vec3.mult(new Vec3(1, 1, 1), (1 - u)),
+            Vec3.mult(new Vec3(0.5, 0.75, 1), u)
+        );
     }
 
-    public int convertRGB(Vec3 c, int s) {
-        c = Vec3.div(c, s);
-        c.clamp(0.0, 1.0);
+    public int convertRGB(Vec3 col, int samples) {
+        col = Vec3.div(col, samples);
+        col.clamp(0.0, 1.0);
 
-        int r = (int) (c.x * 255);
-        int g = (int) (c.y * 255);
-        int b = (int) (c.z * 255);
+        int r = (int) (col.x * 255.999);
+        int g = (int) (col.y * 255.999);
+        int b = (int) (col.z * 255.999);
 
         return new Color(r, g, b).getRGB();
     }
