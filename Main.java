@@ -7,8 +7,10 @@ public class Main {
     public static void main(String args[]) throws IOException {
         World scene = new World();
 
-        Vec3 og = new Vec3(0, 0, 0);
-        Vec3 look = new Vec3(0, 1, 0);
+        scene.add(Primitives.Cube("cube"));
+
+        Vec3 og = new Vec3(1.5, 2, -5);
+        Vec3 look = new Vec3(0, 0, 0);
 
         double dis = Vec3.distance(og, look);
 

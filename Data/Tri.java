@@ -13,17 +13,32 @@ public class Tri {
         N = Vec3.cross(BA, CA).unitVector();
     }
 
-    public void translate(Vec3 t) {
-        A = Vec3.add(A, t);
-        B = Vec3.add(B, t);
-        C = Vec3.add(C, t);
-    }
-
     public Vec3 N() {
         return N;
     }
 
     public double intersect(Ray ray) {
-        return -1.0;
+        Vec3 AB = Vec3.sub(B, A);
+        Vec3 AC = Vec3.sub(C, A);
+        Vec3 P = Vec3.cross(ray.direction(), AC);
+        double det = Vec3.dot(AB, P);
+
+        if (Math.abs(det) < 0.0000001) return -1;
+
+        double invDet = 1 / det;
+
+        Vec3 tuv = Vec3.sub(ray.origin(), A);
+        double u = Vec3.dot(tuv, P) * invDet;
+        if (u < 0 || u > 1) return -1;
+
+        Vec3 q = Vec3.cross(tuv, AB);
+        double v = Vec3.dot(ray.direction(), q) * invDet;
+        if (v < 0 || u + v > 1) return -1;
+
+        double t = Vec3.dot(AC, q) * invDet;
+
+        N = new Vec3(u, v, 1 - u - v);
+
+        return t;
     }
 }

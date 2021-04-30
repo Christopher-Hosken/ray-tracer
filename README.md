@@ -11,6 +11,7 @@ Translations (Better UI)
 
 ### Fun ideas
 
+Subdivsion
 Portals
 Obj import
 Quadtratic Rays (Light bending)
