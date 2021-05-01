@@ -1,4 +1,5 @@
 package Data;
+import java.util.ArrayList;
 
 public class Tri {
     private Vec3 A,B,C;
@@ -8,9 +9,13 @@ public class Tri {
 
     public Tri(Vec3 i, Vec3 j, Vec3 k) {
         A=i; B=j; C=k;
-        Vec3 BA = Vec3.sub(B, A);
+        Vec3 BC = Vec3.sub(B, C);
         Vec3 CA = Vec3.sub(C, A);
-        N = Vec3.cross(BA, CA).unitVector();
+        N = Vec3.cross(BC, CA).unitVector();
+    }
+
+    public Vec3[] points() {
+        return new Vec3[] {A, B, C};
     }
 
     public Vec3 N() {
@@ -37,7 +42,7 @@ public class Tri {
 
         double t = Vec3.dot(AC, q) * invDet;
 
-        N = new Vec3(u, v, 1 - u - v);
+        //N = new Vec3(u, v, 1 - u - v);
 
         return t;
     }

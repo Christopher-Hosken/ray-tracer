@@ -18,6 +18,10 @@ public class Vec3 {
         return Math.sqrt(lengthSquared());
     }
 
+    public String toString() {
+        return String.format("(%f, %f, %f)", x, y, z);
+    }
+
     public Vec3 unitVector() {
         return div(this, length());
     }
@@ -127,10 +131,12 @@ public class Vec3 {
     }
 
     public static Vec3 scatter(Vec3 point, Vec3 normal) {
-        return Vec3.add(
+        /*return Vec3.add(
             Vec3.add(point, normal),
             randomInUnitSphere()
-        );
+        );*/
+        return randomInUnitSphere();
+
     }
 
     public static Vec3 reflect(Vec3 direction, Vec3 normal, double roughness) {

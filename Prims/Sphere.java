@@ -1,5 +1,6 @@
 package Prims;
 import Data.*;
+import Materials.*;
 
 public class Sphere extends Obj {
     private double radius;
@@ -21,6 +22,12 @@ public class Sphere extends Obj {
     public Sphere(String name, Vec3 center, double radius) {
         super(name, center);
         this.radius = radius;
+    }
+
+    public Sphere(String name, Vec3 center, double radius, Mat mat) {
+        super(name, center);
+        this.radius = radius;
+        this.mat = mat;
     }
 
     public double radius() {
@@ -63,6 +70,10 @@ public class Sphere extends Obj {
         }
         else {
             frontFacing = true;
+        }
+
+        if (invN) {
+            N = N.invert();
         }
 
         return t;

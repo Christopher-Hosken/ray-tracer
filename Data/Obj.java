@@ -1,4 +1,5 @@
 package Data;
+import Materials.*;
 
 public class Obj {
     protected String name;
@@ -6,6 +7,8 @@ public class Obj {
     protected Vec3 N;
     protected double t;
     protected boolean frontFacing;
+    protected boolean invN = false;
+    protected Mat mat;
 
     public Obj(String name) {
         center = new Vec3();
@@ -15,6 +18,12 @@ public class Obj {
     public Obj(String name, Vec3 center) {
         this.center = center;
         this.name = name;
+    }
+
+    public Obj(String name, Vec3 center, Mat mat) {
+        this.center = center;
+        this.name = name;
+        this.mat = mat;
     }
 
     //#region (Getter Methods)
@@ -35,8 +44,16 @@ public class Obj {
         return N;
     }
 
+    public void InvertNormal() {
+        invN = !invN;
+    }
+
     public double radius() {
         return 0;
+    }
+
+    public Mat mat() {
+        return mat;
     }
 
     public boolean frontFacing() {

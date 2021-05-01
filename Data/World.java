@@ -35,7 +35,7 @@ public class World {
         if (scene != null && scene.size() > 0)
         for (Obj obj : scene) {
             double t0 = obj.intersect(ray);
-            if (t0 > 0.0001 && t0 < t) {
+            if (t0 > 0.0000001 && t0 < t) {
                 hitObj = obj;
                 t = t0;
                 hit = true;

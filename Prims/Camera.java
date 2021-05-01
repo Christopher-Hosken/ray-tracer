@@ -51,7 +51,7 @@ public class Camera extends Obj {
         return new Ray(Vec3.add(center, offset), target);
     }
 
-    public void render(World world, int samples) throws IOException {
+    public void render(World world, int samples, int bounces) throws IOException {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         for (int y = 0; y < height; y++) {
@@ -62,7 +62,7 @@ public class Camera extends Obj {
                     double v = ((double) y + Math.random()) / height;
                     Ray ray = getRay(u, v);
 
-                    col = Vec3.add(col, solveRay(world, ray));
+                    col = Vec3.add(col, solveRay(world, ray, bounces, bounces));
                 }
                 int rgb = convertRGB(col, samples);
                 image.setRGB(x, (height - 1) - y, rgb);
@@ -74,11 +74,11 @@ public class Camera extends Obj {
         ImageIO.write(image, "png", outFile);
     }
 
-    public Vec3 solveRay(World world, Ray ray) {
+    public Vec3 solveRay(World world, Ray ray, int d, int b) {
         Obj obj = world.hit(ray);
 
         if (obj != null) {
-            return Vec3.mult(0.5, obj.N());
+            return Vec3.mult(Vec3.mult(obj.mat().color(), obj.mat().spec()), solveRay(world, obj.mat().scatter(obj, ray), d - 1, b));
         }
 
         double u = ray.direction().unitVector().y;

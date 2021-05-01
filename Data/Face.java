@@ -1,5 +1,4 @@
 package Data;
-
 public class Face {
     private String id;
     private Tri[] tris;
@@ -21,6 +20,10 @@ public class Face {
         Tri B = new Tri(a, c, d);
 
         tris = new Tri[] {B, A};
+    }
+
+    public Tri[] tris() {
+        return tris;
     }
 
     public String id() {
