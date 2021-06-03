@@ -11,7 +11,8 @@ public class Main {
         Mat dif = new Diffuse("dif", new Vec3(1, 1, 1));
         Mat glos = new Glossy("glos", new Vec3(1, 1, 1), 0.1, 0.65);
 
-        //scene.add(Primitives.Cube("cube", dif));
+        scene.add(Primitives.Cube("cube", dif));
+        scene.get("cube").InvertNormal();
         scene.add(Primitives.IcoSphere("ico", glos));
 
         scene.add(new Mesh("ground", 
