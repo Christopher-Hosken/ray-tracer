@@ -1,51 +1,49 @@
-package Data;
+package data;
 import java.util.ArrayList;
-public class World {
-    private ArrayList<Obj> scene;
 
-    public World() {
-        scene = new ArrayList<Obj>();
+import data.base.*;
+
+public class world {
+    private ArrayList<object> scene;
+
+    public world() {
+        scene = new ArrayList<object>();
     }
 
-    public void add(Obj obj) {
+    public void add(object obj) {
         scene.add(obj);
     }
 
-    public Obj get(int idx) {
+    public object get(int idx) {
         return scene.get(idx);
     }
 
-    public Obj get(String nameID) {
+    public object get(String name) {
         if (scene != null && scene.size() > 0)
-            for (Obj obj : scene) {
-                if (obj.name().equals(nameID)) return obj;
+            for (object obj : scene) {
+                if (obj.name().equals(name)) return obj;
             }
         return null;
     }
 
-    public ArrayList<Obj> scene() {
+    public ArrayList<object> scene() {
         return scene;
     }
 
-    public Obj hit(Ray ray) {
-        Obj hitObj = null;
-        boolean hit = false;
+    public object hit(ray ray) {
+        object hit_obj = null;
         double t = Double.POSITIVE_INFINITY;
 
-        if (scene != null && scene.size() > 0)
-        for (Obj obj : scene) {
-            double t0 = obj.intersect(ray);
-            if (t0 > 0.0000001 && t0 < t) {
-                hitObj = obj;
-                t = t0;
-                hit = true;
+        if (scene != null && scene.size() > 0) {
+            for (object obj : scene) {
+                double t0 = obj.intersect(ray);
+                if (t0 > 0.0000001 && t0 < t) {
+                    hit_obj = obj;
+                    t = t0;
+                }
             }
         }
-
-        if (hit) {
-            return hitObj;
-        }
-
-        return null;
+        
+        return hit_obj;
     }
 }

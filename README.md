@@ -5,15 +5,12 @@ Some of the code is based off the 'Raytracing in a weekend' book, but most of it
 ### Things to do.
 
 Glass Material
-Triangle Intersections
-
 Translations (Better UI)
 
 ### Fun ideas
 
 Subdivsion
 Portals
-Obj import
 Quadtratic Rays (Light bending)
 Image textures
 RGB Rays (Spectral rendering)
